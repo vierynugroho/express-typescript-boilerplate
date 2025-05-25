@@ -1,18 +1,23 @@
-# Albana Clodi Backend
+# Express Typescript Boilerplate
 
-Aplikasi backend untuk Albana Clodi Grosir. Proyek ini menggunakan:
+Proyek ini menggunakan:
 
 - Node.js dengan TypeScript
-- Prisma ORM untuk database
-- Express.js untuk REST API
-- Zod untuk validasi data
+- Prisma ORM untuk database (v6.6.0)
+- Express.js (v5.1.0) untuk REST API
+- Zod (v3.24.3) untuk validasi data
+- Swagger UI (v5.0.1) untuk dokumentasi API
+- JSON Web Token (JWT) untuk autentikasi
+- Helmet (v8.1.0) untuk keamanan HTTP header
+- Cors (v2.8.5) untuk cross-origin resource sharing
+- Morgan untuk HTTP request logging
 
 ## Cara Menjalankan Aplikasi
 
 ### Prasyarat
 
 - Node.js (versi 14 atau lebih baru)
-- NPM atau Yarn
+- NPM
 - Database (PostgreSQL/MySQL/SQLite sesuai konfigurasi Prisma)
 
 ### Langkah-langkah
