@@ -5,7 +5,6 @@ export class UserRepository {
   async findAllAsync() {
     try {
       const users = await prismaClient.user.findMany();
-      console.log({ users });
       return users;
     } catch (error) {
       console.log('[REPOSITORY] - ERROR OCCURED');

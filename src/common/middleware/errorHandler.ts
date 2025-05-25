@@ -73,15 +73,14 @@ const handleJWTError = (err: Error, res: Response) => {
 };
 
 export const unexpectedRequest: RequestHandler = (_req, res) => {
-  res.status(StatusCodes.NOT_FOUND).json(
-    ServiceResponse.failure(
+  res.status(StatusCodes.NOT_FOUND).json({
+    ...ServiceResponse.failure(
       'Not Found',
-      {
-        message: 'Route not found',
-      },
+      'Route not found',
       StatusCodes.NOT_FOUND
-    )
-  );
+    ),
+    docs: '/api-docs',
+  });
 };
 
 export const errorMiddleware: ErrorRequestHandler = (

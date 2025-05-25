@@ -38,7 +38,7 @@ export const UserSchema = z.object({
 });
 
 export const GetUserSchema = z.object({
-  id: commonValidations.id,
+  id: commonValidations.id.uuid,
 });
 
 export const CreateUserSchema = UserSchema.omit({

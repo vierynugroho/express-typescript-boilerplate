@@ -31,12 +31,15 @@ app.use(
 app.use(helmet());
 // app.use(rateLimiter);
 
-// Routes
-app.use('/health-check', healthCheckRouter);
-app.use('/users', userRouter);
+// API Versioning
+const v1Routes = express.Router();
+app.use('/api-docs', openAPIRouter);
+app.use('/api/v1', v1Routes);
+
+v1Routes.use('/health-check', healthCheckRouter);
+v1Routes.use('/users', userRouter);
 
 // Swagger UI
-app.use('/', openAPIRouter);
 
 // Error handlers
 app.use(errorMiddleware);

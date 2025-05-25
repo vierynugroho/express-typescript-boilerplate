@@ -20,7 +20,6 @@ export const validateRequest = (schema: {
 
       return next();
     } catch (error) {
-      console.log(error);
       return next(error);
     }
   };

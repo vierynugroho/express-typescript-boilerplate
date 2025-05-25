@@ -22,13 +22,18 @@ export class UserService {
   }
 
   async findById(id: string) {
-    const user = await this.userRepository.findByIdAsync(id);
+    try {
+      const user = await this.userRepository.findByIdAsync(id);
 
-    if (!user) {
-      throw new AppError(StatusCodes.NOT_FOUND, 'users data is empty');
+      if (!user) {
+        throw new AppError(StatusCodes.NOT_FOUND, 'users data is empty');
+      }
+
+      return user;
+    } catch (error) {
+      console.log('[SERVICE] - ERROR OCCURED DURING FIND BY ID');
+      throw error;
     }
-
-    return user;
   }
 
   async create(userData: Partial<User>) {
