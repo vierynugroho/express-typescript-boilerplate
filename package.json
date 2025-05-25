@@ -5,9 +5,13 @@
   "author": "Viery Nugroho",
   "license": "MIT",
   "main": "index.ts",
+  "engines": {
+    "node": "20.x"
+  },
   "private": true,
   "scripts": {
     "build": "tsc && tsup",
+    "typecheck": "tsc --noEmit",
     "start:dev": "node --import=tsx --watch src/index.ts",
     "start:prod": "node dist/index.js",
     "lint": "eslint 'src/**/*.{ts,tsx}' --fix",

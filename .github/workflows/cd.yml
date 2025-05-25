@@ -11,8 +11,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
-      - name: Setup pnpm
-        uses: ./.github/actions/setup-pnpm
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm ci
 
   build:
     name: Build
@@ -20,8 +25,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
-      - uses: ./.github/actions/setup-pnpm
-      - run: pnpm build
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm ci
+      - run: npm run build
 
   deploy:
     name: Deploy
@@ -29,7 +40,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
-      - uses: ./.github/actions/setup-pnpm
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm ci
 
       - name: Configure AWS
         uses: aws-actions/configure-aws-credentials@v4
@@ -42,7 +59,7 @@ jobs:
         run: |
           echo "Starting deployment of version $(echo $GITHUB_REF | cut -d / -f 3)"
           # Add deployment commands here
-          # Example: pnpm deploy:prod
+          # Example: npm run deploy:prod
 
   summary:
     name: Workflow Summary
