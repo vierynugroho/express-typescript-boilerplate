@@ -1,0 +1,59 @@
+name: Continuous Deployment
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  setup:
+    name: Setup and Install
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+      - name: Setup pnpm
+        uses: ./.github/actions/setup-pnpm
+
+  build:
+    name: Build
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+      - uses: ./.github/actions/setup-pnpm
+      - run: pnpm build
+
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+      - uses: ./.github/actions/setup-pnpm
+
+      - name: Configure AWS
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Deploy to Production
+        run: |
+          echo "Starting deployment of version $(echo $GITHUB_REF | cut -d / -f 3)"
+          # Add deployment commands here
+          # Example: pnpm deploy:prod
+
+  summary:
+    name: Workflow Summary
+    needs: [setup, build, deploy]
+    runs-on: ubuntu-latest
+    if: always() # Run even if previous jobs fail
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+
+      - name: Generate CD Summary
+        run: |
+          echo "# 🚀 CD Workflow Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Deployed version: $(echo $GITHUB_REF | cut -d / -f 3)" >> $GITHUB_STEP_SUMMARY
